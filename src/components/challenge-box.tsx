@@ -12,7 +12,19 @@ import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 
-export default function ChallengeBox() {
+type Challenge =
+  | {
+      type: string
+      description: string
+      amount: number
+    }
+  | undefined
+
+export default function ChallengeBox({
+  activeChallenge,
+}: {
+  activeChallenge?: Challenge
+}) {
   // const { activeChallenge, resetChallenge, completeChallenge } =
   //   useContext(ChallengeContext)
   // const { resetCountdown } = useContext(CountdownContext)
@@ -27,7 +39,6 @@ export default function ChallengeBox() {
   //   resetCountdown()
   // }
 
-  const activeChallenge = undefined
   // {
   //   type: "body",
   //   description:
