@@ -1,12 +1,26 @@
 "use server"
 
 import { getServerSession } from "next-auth"
+import { GithubProfile } from "next-auth/providers/github"
 
-import { collection, query, where, getDocs } from "firebase/firestore"
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  setDoc,
+} from "firebase/firestore"
 
 import { db } from "@/services/firebase"
 
 const USER_DETAILS_COLLECTION = "user_details"
+
+const INITIAL_EXPERIENCE_STATUS: ExperienceStatus = {
+  level: 1,
+  currentExperience: 0,
+  challengesCompleted: 0,
+}
 
 export async function getUserDetails() {
   const session = await getServerSession()
@@ -28,4 +42,28 @@ export async function getUserDetails() {
   } as User
 
   return userDetails
+}
+
+export async function createUserDetails(profile: GithubProfile) {
+  const email = profile.email as string
+  const emailId = email.toLowerCase()
+
+  const userDocRef = doc(db, USER_DETAILS_COLLECTION, emailId)
+
+  const GITHUB_DATA = {
+    login: profile.login,
+    company: profile.company,
+    avatar_url: profile.avatar_url,
+    name: profile.name,
+    email,
+  }
+
+  const data = {
+    ...INITIAL_EXPERIENCE_STATUS,
+    ...GITHUB_DATA,
+  }
+
+  await setDoc(userDocRef, data, { merge: true })
+
+  return userDocRef.id
 }

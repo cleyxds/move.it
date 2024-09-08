@@ -1,6 +1,8 @@
 type User = {
   docID: string
-  username: string
   email: string
+  login: string
+  company: string
+  avatar_url?: string
   name: string
 } & ExperienceStatus
