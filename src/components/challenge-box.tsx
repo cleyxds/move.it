@@ -1,8 +1,8 @@
 "use client"
 
-import { useContext } from "react"
-import { ChallengeContext } from "../contexts/ChallengesContext"
-import { CountdownContext } from "../contexts/CountdownContext"
+// import { useContext } from "react"
+// import { ChallengeContext } from "../contexts/ChallengesContext"
+// import { CountdownContext } from "../contexts/CountdownContext"
 
 import MUIImage from "@/components/mui-image"
 
