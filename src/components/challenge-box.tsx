@@ -12,7 +12,19 @@ import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 
-export default function ChallengeBox() {
+type Challenge =
+  | {
+      type: string
+      description: string
+      amount: number
+    }
+  | undefined
+
+export default function ChallengeBox({
+  activeChallenge,
+}: {
+  activeChallenge?: Challenge
+}) {
   // const { activeChallenge, resetChallenge, completeChallenge } =
   //   useContext(ChallengeContext)
   // const { resetCountdown } = useContext(CountdownContext)
@@ -27,12 +39,12 @@ export default function ChallengeBox() {
   //   resetCountdown()
   // }
 
-  const activeChallenge = {
-    type: "body",
-    description:
-      "É agora Diegão, bora lá meu parça. Caminhe por 3 minutos e estique suas pernas pra você ficar saudável.",
-    amount: 400,
-  }
+  // {
+  //   type: "body",
+  //   description:
+  //     "É agora, bora lá meu parça. Caminhe por 3 minutos e estique suas pernas pra você ficar saudável.",
+  //   amount: 400,
+  // }
 
   function handleChallengeSucceeded() {
     console.log("handleChallengeSucceeded")
@@ -117,11 +129,12 @@ export default function ChallengeBox() {
           </Box>
         </Stack>
       ) : (
-        <Stack alignItems="center">
+        <Stack alignItems="center" width="80%">
           <Typography
             component="strong"
             fontSize="1.5rem"
             fontWeight="500"
+            fontFamily="var(--font-inter)"
             lineHeight="1.4"
           >
             Finalize um ciclo para receber um desafio
@@ -132,7 +145,9 @@ export default function ChallengeBox() {
             display="flex"
             flexDirection="column"
             alignItems="center"
-            lineHeight="1.4"
+            fontFamily="var(--font-inter)"
+            fontSize="1rem"
+            lineHeight="1.625rem"
             maxWidth="70%"
             marginTop="3rem"
             textAlign="center"
@@ -146,7 +161,7 @@ export default function ChallengeBox() {
                 marginBottom: "1rem",
               }}
             />
-            Avance de level completando desafios
+            Avance de level completando os desafios
           </Typography>
         </Stack>
       )}

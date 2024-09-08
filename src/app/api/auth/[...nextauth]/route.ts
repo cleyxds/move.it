@@ -1,5 +1,7 @@
 import NextAuth from "next-auth"
-import GithubProvider from "next-auth/providers/github"
+import GithubProvider, { GithubProfile } from "next-auth/providers/github"
+
+import { createUserDetails } from "@/app/actions/user"
 
 const GITHUB_ID = process.env.GITHUB_ID as string
 const GITHUB_SECRET = process.env.GITHUB_SECRET as string
@@ -12,8 +14,10 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    signIn: async ({ user, account, profile, email, credentials }) => {
-      return true
+    signIn: async ({ profile }) => {
+      if (!profile) return "/"
+
+      return await createUserDetails(profile as GithubProfile).then(() => true)
     },
     redirect: async () => "/pomodoro",
   },

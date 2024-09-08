@@ -28,7 +28,7 @@ export default async function IndexPage() {
     >
       <ExperienceBar {...status} />
 
-      <Stack component="section" direction="row" gap="8rem">
+      <Stack component="section" direction="row" gap="8rem" pt="2rem">
         <Stack flex={1}>
           <Profile level={status.level} />
 
