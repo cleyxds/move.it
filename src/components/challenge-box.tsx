@@ -27,12 +27,13 @@ export default function ChallengeBox() {
   //   resetCountdown()
   // }
 
-  const activeChallenge = {
-    type: "body",
-    description:
-      "É agora Diegão, bora lá meu parça. Caminhe por 3 minutos e estique suas pernas pra você ficar saudável.",
-    amount: 400,
-  }
+  const activeChallenge = undefined
+  // {
+  //   type: "body",
+  //   description:
+  //     "É agora, bora lá meu parça. Caminhe por 3 minutos e estique suas pernas pra você ficar saudável.",
+  //   amount: 400,
+  // }
 
   function handleChallengeSucceeded() {
     console.log("handleChallengeSucceeded")
@@ -117,11 +118,12 @@ export default function ChallengeBox() {
           </Box>
         </Stack>
       ) : (
-        <Stack alignItems="center">
+        <Stack alignItems="center" width="80%">
           <Typography
             component="strong"
             fontSize="1.5rem"
             fontWeight="500"
+            fontFamily="var(--font-inter)"
             lineHeight="1.4"
           >
             Finalize um ciclo para receber um desafio
@@ -132,7 +134,9 @@ export default function ChallengeBox() {
             display="flex"
             flexDirection="column"
             alignItems="center"
-            lineHeight="1.4"
+            fontFamily="var(--font-inter)"
+            fontSize="1rem"
+            lineHeight="1.625rem"
             maxWidth="70%"
             marginTop="3rem"
             textAlign="center"
@@ -146,7 +150,7 @@ export default function ChallengeBox() {
                 marginBottom: "1rem",
               }}
             />
-            Avance de level completando desafios
+            Avance de level completando os desafios
           </Typography>
         </Stack>
       )}

@@ -10,6 +10,8 @@ import {
   getDocs,
   doc,
   setDoc,
+  limit,
+  orderBy,
 } from "firebase/firestore"
 
 import { db } from "@/services/firebase"
@@ -66,4 +68,8 @@ export async function createUserDetails(profile: GithubProfile) {
   await setDoc(userDocRef, data, { merge: true })
 
   return userDocRef.id
+}
+
+export async function getLeaderboardData(): Promise<LeaderboardRow[]> {
+  return []
 }
