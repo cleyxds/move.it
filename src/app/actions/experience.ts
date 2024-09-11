@@ -2,6 +2,15 @@
 
 import { cookies } from "next/headers"
 
+import { getServerSession } from "next-auth"
+
+import { doc, increment, updateDoc } from "firebase/firestore"
+
+import { db } from "@/services/firebase"
+import { revalidatePath } from "next/cache"
+
+const USER_DETAILS_COLLECTION = "user_details"
+
 const LEVEL_COOKIE_NAME = "level"
 const CURRENT_EXPERIENCE_COOKIE_NAME = "current_experience"
 const CHALLENGES_COMPLETED_COOKIE_NAME = "challenges_completed"
@@ -44,4 +53,47 @@ export async function getStatus(): Promise<ExperienceStatus> {
   }
 
   return status
+}
+
+export async function levelUp() {
+  const session = await getServerSession()
+  const user = session?.user?.email
+
+  if (!user) return
+
+  const userRef = doc(db, USER_DETAILS_COLLECTION, user)
+
+  await updateDoc(userRef, {
+    level: increment(1),
+  })
+}
+
+export async function updateExperienceAndChallengesCompleted({
+  currentExperience,
+}: {
+  currentExperience: number
+}) {
+  const session = await getServerSession()
+  const user = session?.user?.email
+
+  if (!user || isNaN(currentExperience)) return
+
+  const userRef = doc(db, USER_DETAILS_COLLECTION, user)
+
+  await updateDoc(userRef, {
+    currentExperience,
+    challengesCompleted: increment(1),
+  })
+}
+
+export async function onUpdateExperienceAndChallengesCompleted(
+  currentExperience: number
+) {
+  await updateExperienceAndChallengesCompleted({ currentExperience })
+  revalidatePath("/pomodoro")
+}
+
+export async function onLevelUp() {
+  await levelUp()
+  revalidatePath("/pomodoro")
 }

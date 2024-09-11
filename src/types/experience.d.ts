@@ -4,3 +4,9 @@ type ExperienceStatus = {
   challengesCompleted: number
   experienceToNextLevel?: number
 }
+
+type Challenge = {
+  type: "body" | "eye"
+  description: string
+  amount: number
+}

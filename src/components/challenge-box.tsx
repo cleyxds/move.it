@@ -1,8 +1,9 @@
 "use client"
 
-// import { useContext } from "react"
-// import { ChallengeContext } from "../contexts/ChallengesContext"
-// import { CountdownContext } from "../contexts/CountdownContext"
+import { useContext } from "react"
+
+import { ChallengeContext } from "@/contexts/ChallengesContext"
+import { CountdownContext } from "@/contexts/CountdownContext"
 
 import MUIImage from "@/components/mui-image"
 
@@ -12,46 +13,19 @@ import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 
-type Challenge =
-  | {
-      type: string
-      description: string
-      amount: number
-    }
-  | undefined
-
-export default function ChallengeBox({
-  activeChallenge,
-}: {
-  activeChallenge?: Challenge
-}) {
-  // const { activeChallenge, resetChallenge, completeChallenge } =
-  //   useContext(ChallengeContext)
-  // const { resetCountdown } = useContext(CountdownContext)
-
-  // function handleChallengeSucceeded() {
-  //   completeChallenge()
-  //   resetCountdown()
-  // }
-
-  // function handleChallengeFailed() {
-  //   resetChallenge()
-  //   resetCountdown()
-  // }
-
-  // {
-  //   type: "body",
-  //   description:
-  //     "É agora, bora lá meu parça. Caminhe por 3 minutos e estique suas pernas pra você ficar saudável.",
-  //   amount: 400,
-  // }
+export default function ChallengeBox() {
+  const { resetCountdown } = useContext(CountdownContext)
+  const { activeChallenge, resetChallenge, completeChallenge } =
+    useContext(ChallengeContext)
 
   function handleChallengeSucceeded() {
-    console.log("handleChallengeSucceeded")
+    completeChallenge()
+    resetCountdown()
   }
 
   function handleChallengeFailed() {
-    console.log("handleChallengeFailed")
+    resetChallenge()
+    resetCountdown()
   }
 
   return (
@@ -60,7 +34,6 @@ export default function ChallengeBox({
       bgcolor="var(--white)"
       borderRadius="5px"
       boxShadow="0 0 60px rgba(0, 0, 0, 0.05)"
-      padding="0"
       alignItems="center"
       justifyContent="center"
       textAlign="center"
