@@ -22,7 +22,6 @@ export default async function IndexPage() {
     <Stack
       position="relative"
       justifyContent="center"
-      alignItems="center"
       paddingRight="10rem"
       flex={1}
     >

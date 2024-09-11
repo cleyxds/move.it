@@ -1,5 +1,7 @@
 "use server"
 
+import { cache } from "react"
+
 import { getServerSession } from "next-auth"
 import { GithubProfile } from "next-auth/providers/github"
 
@@ -10,8 +12,6 @@ import {
   getDocs,
   doc,
   setDoc,
-  limit,
-  orderBy,
 } from "firebase/firestore"
 
 import { db } from "@/services/firebase"
@@ -24,7 +24,7 @@ const INITIAL_EXPERIENCE_STATUS: ExperienceStatus = {
   challengesCompleted: 0,
 }
 
-export async function getUserDetails() {
+export const getUserDetails = cache(async () => {
   const session = await getServerSession()
   const email = session?.user?.email
 
@@ -44,7 +44,7 @@ export async function getUserDetails() {
   } as User
 
   return userDetails
-}
+})
 
 export async function createUserDetails(profile: GithubProfile) {
   const email = profile.email as string
@@ -70,6 +70,6 @@ export async function createUserDetails(profile: GithubProfile) {
   return userDocRef.id
 }
 
-export async function getLeaderboardData(): Promise<LeaderboardRow[]> {
+export const getLeaderboardData = cache(async (): Promise<LeaderboardRow[]> => {
   return []
-}
+})

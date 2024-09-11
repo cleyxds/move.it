@@ -50,9 +50,7 @@ export default async function Profile({ level }: { level: number }) {
               alt="Level"
               width={14}
               height={16}
-              sx={{
-                marginRight: "0.5rem",
-              }}
+              sx={{ marginRight: "0.5rem" }}
             />
             Level {level}
           </Typography>
