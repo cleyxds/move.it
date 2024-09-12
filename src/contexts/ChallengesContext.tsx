@@ -5,8 +5,9 @@ import { createContext, ReactNode, useEffect, useState } from "react"
 // import { LevelUpModal } from '../components/LevelUpModal';
 
 import {
-  onLevelUp,
-  onUpdateExperienceAndChallengesCompleted,
+  levelUp,
+  revalidatePomodoro,
+  updateExperienceAndChallengesCompleted,
 } from "@/app/actions/experience"
 
 import challenges from "../../challenges.json"
@@ -34,16 +35,10 @@ export const ChallengeContext = createContext({} as ChallengesContextData)
 
 export default function ChallengesProvider({
   children,
-  ...rest
+  level,
+  currentExperience,
+  challengesCompleted,
 }: ChallengeProviderProps) {
-  const [level, setLevel] = useState(rest.level ?? 1)
-  const [currentExperience, setCurrentExperience] = useState(
-    rest.currentExperience ?? 0
-  )
-  const [challengesCompleted, setChallengesCompleted] = useState(
-    rest.challengesCompleted ?? 0
-  )
-
   const [activeChallenge, setActiveChallenge] = useState<Challenge | null>(null)
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
 
@@ -62,6 +57,8 @@ export default function ChallengesProvider({
     const challenge = challenges[randomChallengeIndex] as Challenge
 
     setActiveChallenge(challenge)
+
+    alert("Novo desafio 🎉")
 
     new Audio("/notification.mp3").play()
 
@@ -86,12 +83,16 @@ export default function ChallengesProvider({
     if (finalExperience >= experienceToNextLevel) {
       finalExperience = finalExperience - experienceToNextLevel
 
-      await onLevelUp()
+      await levelUp()
       setIsLevelUpModalOpen(true)
     }
 
-    await onUpdateExperienceAndChallengesCompleted(finalExperience)
+    await updateExperienceAndChallengesCompleted({
+      currentExperience: finalExperience,
+    })
     setActiveChallenge(null)
+
+    revalidatePomodoro()
   }
 
   return (

@@ -86,14 +86,6 @@ export async function updateExperienceAndChallengesCompleted({
   })
 }
 
-export async function onUpdateExperienceAndChallengesCompleted(
-  currentExperience: number
-) {
-  await updateExperienceAndChallengesCompleted({ currentExperience })
-  revalidatePath("/pomodoro")
-}
-
-export async function onLevelUp() {
-  await levelUp()
+export async function revalidatePomodoro() {
   revalidatePath("/pomodoro")
 }

@@ -25,9 +25,7 @@ interface CountdownProviderProps {
 
 export const CountdownContext = createContext({} as CountdownContextData)
 
-let countdownTimeout: NodeJS.Timeout
-
-const min25 = 25 * 60
+const min25 = 25 * 60 // 25 minutos em segundos
 
 export default function CountdownProvider({
   children,
@@ -37,32 +35,46 @@ export default function CountdownProvider({
   const [time, setTime] = useState(min25)
   const [isActive, setIsActive] = useState(false)
   const [hasFinished, setHasFinished] = useState(false)
+  const [startTime, setStartTime] = useState<number | null>(null) // Timestamp de quando o countdown começa
 
   const minutes = Math.floor(time / 60)
   const seconds = time % 60
 
   function startCountdown() {
     setIsActive(true)
+    setStartTime(Date.now()) // Armazena o timestamp atual
   }
 
   function resetCountdown() {
-    clearTimeout(countdownTimeout)
     setIsActive(false)
-    setTime(min25)
+    setTime(min25) // Reseta para 25 minutos
     setHasFinished(false)
+    setStartTime(null) // Reseta o timestamp
   }
 
   useEffect(() => {
-    if (isActive && time > 0) {
-      countdownTimeout = setTimeout(() => {
-        setTime(time - 1)
+    let countdownInterval: NodeJS.Timeout
+
+    if (isActive && startTime) {
+      countdownInterval = setInterval(() => {
+        // Calcula o tempo decorrido
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000) // Diferença em segundos
+        const newTime = min25 - elapsedTime
+
+        if (newTime > 0) {
+          setTime(newTime)
+        } else {
+          clearInterval(countdownInterval)
+          setTime(0)
+          setIsActive(false)
+          setHasFinished(true)
+          startNewChallenge() // Inicia o novo desafio
+        }
       }, 1000)
-    } else if (isActive && time === 0) {
-      setHasFinished(true)
-      setIsActive(false)
-      startNewChallenge()
     }
-  }, [isActive, time])
+
+    return () => clearInterval(countdownInterval) // Limpa o intervalo ao desmontar ou ao reiniciar o countdown
+  }, [isActive, startTime])
 
   return (
     <CountdownContext.Provider

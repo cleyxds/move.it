@@ -53,6 +53,7 @@ export default function ExperienceBar({
           fontWeight="500"
           fontSize=".875rem"
           fontFamily="var(--font-inter)"
+          textAlign="center"
           top="12px"
           sx={{
             transform: "translateX(-50%)",

@@ -1,5 +1,8 @@
 import Stack from "@mui/material/Stack"
 
+import ChallengesProvider from "@/contexts/ChallengesContext"
+import CountdownProvider from "@/contexts/CountdownContext"
+
 import Profile from "@/components/profile"
 import Countdown from "@/components/countdown"
 import ChallengeBox from "@/components/challenge-box"
@@ -19,29 +22,37 @@ export default async function IndexPage() {
   }
 
   return (
-    <Stack
-      position="relative"
-      justifyContent="center"
-      paddingRight="10rem"
-      flex={1}
+    <ChallengesProvider
+      level={status.level}
+      currentExperience={status.currentExperience}
+      challengesCompleted={status.challengesCompleted}
     >
-      <ExperienceBar {...status} />
+      <CountdownProvider>
+        <Stack
+          position="relative"
+          justifyContent="center"
+          paddingRight="10rem"
+          flex={1}
+        >
+          <ExperienceBar {...status} />
 
-      <Stack component="section" direction="row" gap="8rem" pt="2rem">
-        <Stack flex={1}>
-          <Profile level={status.level} />
+          <Stack component="section" direction="row" gap="8rem" pt="2rem">
+            <Stack flex={1}>
+              <Profile level={status.level} />
 
-          <CompletedChallenges
-            challengesCompleted={status.challengesCompleted}
-          />
+              <CompletedChallenges
+                challengesCompleted={status.challengesCompleted}
+              />
 
-          <Countdown />
+              <Countdown />
+            </Stack>
+
+            <Stack flex={1}>
+              <ChallengeBox />
+            </Stack>
+          </Stack>
         </Stack>
-
-        <Stack flex={1}>
-          <ChallengeBox />
-        </Stack>
-      </Stack>
-    </Stack>
+      </CountdownProvider>
+    </ChallengesProvider>
   )
 }
