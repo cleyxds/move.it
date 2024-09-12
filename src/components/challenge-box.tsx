@@ -18,8 +18,8 @@ export default function ChallengeBox() {
   const { activeChallenge, resetChallenge, completeChallenge } =
     useContext(ChallengeContext)
 
-  function handleChallengeSucceeded() {
-    completeChallenge()
+  async function handleChallengeSucceeded() {
+    await completeChallenge()
     resetCountdown()
   }
 
