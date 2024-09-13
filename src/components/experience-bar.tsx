@@ -44,6 +44,7 @@ export default function ExperienceBar({
           bgcolor="green.main"
           sx={{
             width: `${percentToNextLevel}%`,
+            transition: "width 0.5s ease-in-out",
           }}
         />
 
@@ -58,6 +59,7 @@ export default function ExperienceBar({
           sx={{
             transform: "translateX(-50%)",
             left: `${percentToNextLevel}%`,
+            transition: "left 0.5s ease-in-out",
           }}
         >
           {currentExperience} xp
