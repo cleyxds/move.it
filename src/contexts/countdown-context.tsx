@@ -8,7 +8,7 @@ import {
   useState,
 } from "react"
 
-import { ChallengeContext } from "./ChallengesContext"
+import { ChallengeContext } from "@/contexts/challenges-context"
 
 interface CountdownContextData {
   minutes: number
@@ -25,14 +25,14 @@ interface CountdownProviderProps {
 
 export const CountdownContext = createContext({} as CountdownContextData)
 
-const min25 = 25 * 60 // 25 minutos em segundos
+const pomodoro25Min = 25 * 60 // 25 minutos em segundos
 
 export default function CountdownProvider({
   children,
 }: CountdownProviderProps) {
   const { startNewChallenge } = useContext(ChallengeContext)
 
-  const [time, setTime] = useState(min25)
+  const [time, setTime] = useState(pomodoro25Min)
   const [isActive, setIsActive] = useState(false)
   const [hasFinished, setHasFinished] = useState(false)
   const [startTime, setStartTime] = useState<number | null>(null) // Timestamp de quando o countdown começa
@@ -47,7 +47,7 @@ export default function CountdownProvider({
 
   function resetCountdown() {
     setIsActive(false)
-    setTime(min25) // Reseta para 25 minutos
+    setTime(pomodoro25Min) // Reseta para 25 minutos
     setHasFinished(false)
     setStartTime(null) // Reseta o timestamp
   }
@@ -59,7 +59,7 @@ export default function CountdownProvider({
       countdownInterval = setInterval(() => {
         // Calcula o tempo decorrido
         const elapsedTime = Math.floor((Date.now() - startTime) / 1000) // Diferença em segundos
-        const newTime = min25 - elapsedTime
+        const newTime = pomodoro25Min - elapsedTime
 
         if (newTime > 0) {
           setTime(newTime)

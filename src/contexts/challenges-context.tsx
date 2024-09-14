@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useEffect, useState } from "react"
 
-// import { LevelUpModal } from '../components/LevelUpModal';
+import LevelUpModal from "@/components/level-up-modal"
 
 import {
   levelUp,
@@ -22,6 +22,7 @@ type ChallengesContextData = {
   resetChallenge: () => void
   completeChallenge: () => void
   handleCloseLevelUpModal: () => void
+  isLevelUpModalOpen: boolean
 }
 
 type ChallengeProviderProps = {
@@ -58,8 +59,6 @@ export default function ChallengesProvider({
 
     setActiveChallenge(challenge)
 
-    alert("Novo desafio 🎉")
-
     new Audio("/notification.mp3").play()
 
     if (Notification.permission === "granted") {
@@ -84,6 +83,9 @@ export default function ChallengesProvider({
       finalExperience = finalExperience - experienceToNextLevel
 
       await levelUp()
+      const TADA = new Audio("/tada.mp3")
+      TADA.volume = 0.25
+      await TADA.play()
       setIsLevelUpModalOpen(true)
     }
 
@@ -107,11 +109,12 @@ export default function ChallengesProvider({
         resetChallenge,
         completeChallenge,
         handleCloseLevelUpModal,
+        isLevelUpModalOpen,
       }}
     >
       {children}
 
-      {/* { isLevelUpModalOpen && <LevelUpModal />} */}
+      {isLevelUpModalOpen && <LevelUpModal />}
     </ChallengeContext.Provider>
   )
 }

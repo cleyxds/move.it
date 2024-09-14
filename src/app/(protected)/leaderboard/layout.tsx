@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Pomodoro | move.it",
+  title: "Leaderboard | move.it",
 }
 
 export default function PomodoroLayout({

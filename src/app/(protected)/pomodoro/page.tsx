@@ -1,7 +1,7 @@
 import Stack from "@mui/material/Stack"
 
-import ChallengesProvider from "@/contexts/ChallengesContext"
-import CountdownProvider from "@/contexts/CountdownContext"
+import ChallengesProvider from "@/contexts/challenges-context"
+import CountdownProvider from "@/contexts/countdown-context"
 
 import Profile from "@/components/profile"
 import Countdown from "@/components/countdown"

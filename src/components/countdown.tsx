@@ -14,7 +14,7 @@ import CloseIcon from "@/assets/icons/close"
 import CheckIcon from "@/assets/icons/check"
 
 // import { useContext } from "react"
-import { CountdownContext } from "@/contexts/CountdownContext"
+import { CountdownContext } from "@/contexts/countdown-context"
 
 // import styles from "../styles/comcpponents/Countdown.module.css"
 
