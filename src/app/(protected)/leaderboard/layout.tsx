@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: "Leaderboard | move.it",
 }
 
-export default function PomodoroLayout({
+export default function LeaderboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
