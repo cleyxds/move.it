@@ -2,8 +2,8 @@
 
 import { useContext } from "react"
 
-import { ChallengeContext } from "@/contexts/ChallengesContext"
-import { CountdownContext } from "@/contexts/CountdownContext"
+import { ChallengeContext } from "@/contexts/challenges-context"
+import { CountdownContext } from "@/contexts/countdown-context"
 
 import MUIImage from "@/components/mui-image"
 
