@@ -6,13 +6,9 @@ import Skeleton from "@mui/material/Skeleton"
 
 import LeaderboardTable from "./leaderboard-table"
 
-import { getLeaderboardData } from "@/app/actions/user"
-
-export default async function LeaderboardPage() {
-  const rows = await getLeaderboardData()
-
+export default function LeaderboardPage() {
   return (
-    <Stack paddingTop="1.5rem" paddingRight="10rem" flex={1}>
+    <Stack paddingTop="1.5rem" paddingRight="10rem" flex={1} gap="1.5rem">
       <Typography
         fontSize="2.25rem"
         lineHeight="2.875rem"
@@ -33,7 +29,7 @@ export default async function LeaderboardPage() {
           </Stack>
         }
       >
-        <LeaderboardTable rows={rows} />
+        <LeaderboardTable />
       </Suspense>
     </Stack>
   )

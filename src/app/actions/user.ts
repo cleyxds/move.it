@@ -9,6 +9,7 @@ import {
   collection,
   query,
   where,
+  orderBy,
   getDocs,
   doc,
   setDoc,
@@ -19,6 +20,7 @@ import {
 import { db } from "@/services/firebase"
 
 import { revalidatePomodoro } from "@/app/actions/experience"
+import calculateTotalXP from "@/utils/calculate-total-xp"
 
 const USER_DETAILS_COLLECTION = "user_details"
 
@@ -81,8 +83,42 @@ export const getUserDetails = cache(async () => {
 })
 
 export const getLeaderboardData = cache(async (): Promise<LeaderboardRow[]> => {
-  return []
+  const session = await getServerSession()
+  const email = session?.user?.email as string
+
+  let data: LeaderboardRow[] = []
+
+  const q = query(
+    collection(db, USER_DETAILS_COLLECTION),
+    where("challengesCompleted", ">", 0),
+    orderBy("challengesCompleted", "desc")
+  )
+
+  const leaderboard = await getDocs(q)
+    .then((snapshot) => snapshot.docs.map((doc) => doc.data()))
+    .then((users: User[]) => formatLeaderboardData(users, email))
+
+  data = leaderboard
+
+  return data
 })
+
+export const getUserByLogin = async (login: string): Promise<User | null> => {
+  const collectionRef = collection(db, USER_DETAILS_COLLECTION)
+
+  const q = query(collectionRef, where("login", "==", login))
+
+  const querySnapshot = await getDocs(q)
+
+  const userDetailsRef = querySnapshot.docs[0]
+
+  if (!userDetailsRef) return null
+
+  return {
+    docID: userDetailsRef.id,
+    ...userDetailsRef.data(),
+  } as User
+}
 
 export async function toggleRest() {
   const session = await getServerSession()
@@ -103,4 +139,23 @@ export async function toggleRest() {
   })
 
   revalidatePomodoro()
+}
+
+export async function formatLeaderboardData(
+  users: User[],
+  currentUserEmail: string
+): Promise<LeaderboardRow[]> {
+  return users.map((user, index) => ({
+    id: user.email,
+    position: index + 1,
+    challenges: user.challengesCompleted,
+    total_experience: calculateTotalXP(user.level, user.currentExperience),
+    user: {
+      level: user.level,
+      name: user.name,
+      slug: user.login,
+      avatar_url: user?.avatar_url,
+      me: user.email === currentUserEmail,
+    },
+  }))
 }
