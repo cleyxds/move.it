@@ -14,19 +14,33 @@ import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 
 export default function ChallengeBox() {
-  const { resetCountdown } = useContext(CountdownContext)
-  const { activeChallenge, resetChallenge, completeChallenge } =
-    useContext(ChallengeContext)
+  const { resetCountdown, startRestCountdown } = useContext(CountdownContext)
+  const {
+    activeChallenge,
+    resetChallenge,
+    completeChallenge,
+    handleChallengeSucceeded,
+    handleChallengeFailed,
+  } = useContext(ChallengeContext)
 
-  async function handleChallengeSucceeded() {
-    await completeChallenge()
-    resetCountdown()
+  async function challengeSucceeded() {
+    await handleChallengeSucceeded()
+      .then(() => {
+        startRestCountdown()
+      })
+      .catch(() => {
+        resetChallenge()
+        resetCountdown()
+      })
   }
 
-  function handleChallengeFailed() {
-    resetChallenge()
-    resetCountdown()
+  function challengeFailed() {
+    handleChallengeFailed().then(() => {
+      resetCountdown()
+    })
   }
+
+  const isRestChallenge = activeChallenge?.type === "rest"
 
   return (
     <Stack
@@ -39,21 +53,14 @@ export default function ChallengeBox() {
       textAlign="center"
     >
       {activeChallenge ? (
-        <Stack height="100%">
-          <Stack padding="1.75rem 3rem" height="100%" gap="2rem">
-            <Box
-              component="header"
-              color="var(--blue)"
-              fontWeight="600"
-              fontSize="1.25rem"
-              padding="0 0 1.5rem"
-              borderBottom="1px solid var(--gray-line)"
-              width="100%"
+        <>
+          {isRestChallenge ? (
+            <Stack
+              alignItems="center"
+              justifyContent="center"
+              flex={1}
+              gap="2rem"
             >
-              Ganhe {activeChallenge.amount} xp
-            </Box>
-
-            <Stack alignItems="center" justifyContent="center" flex={1}>
               <MUIImage
                 width={140}
                 height={112}
@@ -62,45 +69,80 @@ export default function ChallengeBox() {
               />
 
               <Typography
-                fontSize="1.875rem"
-                fontWeight="600"
-                color="var(--title)"
-                paddingTop="1.5rem"
-                paddingBottom="0.5rem"
+                component="strong"
+                fontSize="1.5rem"
+                fontWeight="500"
+                fontFamily="var(--font-inter)"
+                lineHeight="1.4"
               >
-                Novo desafio
-              </Typography>
-
-              <Typography width="70%" lineHeight="1.5">
-                {activeChallenge.description}
+                Tempo de descanso
               </Typography>
             </Stack>
-          </Stack>
+          ) : (
+            <Stack height="100%">
+              <Stack padding="1.75rem 3rem" height="100%" gap="2rem">
+                <Box
+                  component="header"
+                  color="var(--blue)"
+                  fontWeight="600"
+                  fontSize="1.25rem"
+                  padding="0 0 1.5rem"
+                  borderBottom="1px solid var(--gray-line)"
+                  width="100%"
+                >
+                  Ganhe {activeChallenge.amount} xp
+                </Box>
 
-          <Box display="grid" gridTemplateColumns="1fr 1fr">
-            <CTAButton
-              type="button"
-              onClick={handleChallengeFailed}
-              sx={{
-                backgroundColor: "rgb(255, 245, 245)",
-                color: "rgb(255, 67, 67)",
-              }}
-            >
-              Falhei
-            </CTAButton>
+                <Stack alignItems="center" justifyContent="center" flex={1}>
+                  <MUIImage
+                    width={140}
+                    height={112}
+                    src={`icons/${activeChallenge.type}.svg`}
+                    alt={`Icon: ${activeChallenge.type}`}
+                  />
 
-            <CTAButton
-              type="button"
-              onClick={handleChallengeSucceeded}
-              sx={{
-                backgroundColor: "rgb(247, 255, 245)",
-                color: "rgb(63, 176, 35)",
-              }}
-            >
-              Completei
-            </CTAButton>
-          </Box>
-        </Stack>
+                  <Typography
+                    fontSize="1.875rem"
+                    fontWeight="600"
+                    color="var(--title)"
+                    paddingTop="1.5rem"
+                    paddingBottom="0.5rem"
+                  >
+                    Novo desafio
+                  </Typography>
+
+                  <Typography width="70%" lineHeight="1.5">
+                    {activeChallenge.description}
+                  </Typography>
+                </Stack>
+              </Stack>
+
+              <Box display="grid" gridTemplateColumns="1fr 1fr">
+                <CTAButton
+                  type="button"
+                  onClick={challengeFailed}
+                  sx={{
+                    backgroundColor: "rgb(255, 245, 245)",
+                    color: "rgb(255, 67, 67)",
+                  }}
+                >
+                  Falhei
+                </CTAButton>
+
+                <CTAButton
+                  type="button"
+                  onClick={challengeSucceeded}
+                  sx={{
+                    backgroundColor: "rgb(247, 255, 245)",
+                    color: "rgb(63, 176, 35)",
+                  }}
+                >
+                  Completei
+                </CTAButton>
+              </Box>
+            </Stack>
+          )}
+        </>
       ) : (
         <Stack alignItems="center" width="80%">
           <Typography

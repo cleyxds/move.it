@@ -1,19 +1,19 @@
-"use client"
-
-import { signIn } from "next-auth/react"
-
 import Stack from "@mui/material/Stack"
-import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
 import Typography from "@mui/material/Typography"
 
 import MUIImage from "@/components/mui-image"
+import EnterButton from "./enter-button"
+
+import { isAuthenticated } from "../actions/auth"
 
 import Logo from "@/assets/logo"
 import GithubIcon from "@/assets/icons/github"
 import MoveitBackground from "@/assets/images/moveit-background.webp"
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const authenticated = await isAuthenticated()
+
   return (
     <Container sx={{ bgcolor: "blue.main" }}>
       <Stack flex={1} direction="row" alignItems="center">
@@ -48,27 +48,7 @@ export default function LoginPage() {
             </Typography>
           </Stack>
 
-          <Button
-            onClick={() => signIn("github")}
-            sx={{
-              height: "5rem",
-              borderRadius: ".3125rem",
-              fontSize: "1.125rem",
-              bgcolor: "common.white",
-              color: "blueDark.main",
-              width: "50%",
-              gap: "0.5rem",
-              transition: "background-color 0.3s",
-
-              "&:hover": {
-                transition: "background-color 0.3s",
-                bgcolor: "rgba(255, 255, 255, 0.9)",
-              },
-            }}
-          >
-            Entrar usando Github{" "}
-            <GithubIcon width={24} height={24} viewBox="0 0 40 40" />
-          </Button>
+          <EnterButton authenticated={authenticated} />
         </Stack>
       </Stack>
     </Container>

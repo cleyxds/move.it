@@ -3,8 +3,6 @@
 import Paper from "@mui/material/Paper"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 
-import { getLeaderboardData } from "@/app/actions/user"
-
 function calculateTotalXP(status: ExperienceStatus): number {
   let totalXP = 0
 
@@ -35,9 +33,11 @@ const columns: GridColDef[] = [
 
 const paginationModel = { page: 0, pageSize: 10 }
 
-export default async function LeaderboardTable({}) {
-  const rows = await getLeaderboardData()
-
+export default async function LeaderboardTable({
+  rows,
+}: {
+  rows: LeaderboardRow[]
+}) {
   return (
     <Paper sx={{ height: "90%", width: "100%" }}>
       <DataGrid

@@ -13,9 +13,12 @@ import {
   doc,
   setDoc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore"
 
 import { db } from "@/services/firebase"
+
+import { revalidatePomodoro } from "@/app/actions/experience"
 
 const USER_DETAILS_COLLECTION = "user_details"
 
@@ -23,6 +26,7 @@ const INITIAL_EXPERIENCE_STATUS: ExperienceStatus = {
   level: 1,
   currentExperience: 0,
   challengesCompleted: 0,
+  rest: true,
 }
 
 export async function createUserDetails(profile: GithubProfile) {
@@ -79,3 +83,24 @@ export const getUserDetails = cache(async () => {
 export const getLeaderboardData = cache(async (): Promise<LeaderboardRow[]> => {
   return []
 })
+
+export async function toggleRest() {
+  const session = await getServerSession()
+  const email = session?.user?.email
+
+  if (!email) return // Guard if the user is not logged in
+
+  const userDocRef = doc(db, USER_DETAILS_COLLECTION, email)
+
+  const docSnapshot = await getDoc(userDocRef)
+
+  if (!docSnapshot.exists()) return // Guard if the user does not exist
+
+  const { rest } = docSnapshot.data() as User
+
+  await updateDoc(userDocRef, {
+    rest: !rest,
+  })
+
+  revalidatePomodoro()
+}
