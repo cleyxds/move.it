@@ -19,15 +19,17 @@ export default async function IndexPage() {
     currentExperience: user?.currentExperience!,
     challengesCompleted: user?.challengesCompleted!,
     experienceToNextLevel: Math.pow((Number(user?.level!) + 1) * 4, 2),
+    rest: user?.rest!,
   }
 
   return (
     <ChallengesProvider
       level={status.level}
+      rest={status.rest}
       currentExperience={status.currentExperience}
       challengesCompleted={status.challengesCompleted}
     >
-      <CountdownProvider>
+      <CountdownProvider rest={status.rest}>
         <Stack
           position="relative"
           justifyContent="center"

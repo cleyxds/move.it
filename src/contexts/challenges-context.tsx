@@ -20,8 +20,11 @@ type ChallengesContextData = {
   startNewChallenge: () => void
   activeChallenge: Challenge | null
   resetChallenge: () => void
-  completeChallenge: () => void
+  startRestChallenge: () => void
+  completeChallenge: () => Promise<void>
   handleCloseLevelUpModal: () => void
+  handleChallengeFailed: () => Promise<void>
+  handleChallengeSucceeded: () => Promise<void>
   isLevelUpModalOpen: boolean
 }
 
@@ -30,6 +33,7 @@ type ChallengeProviderProps = {
   level: number
   currentExperience: number
   challengesCompleted: number
+  rest: boolean
 }
 
 export const ChallengeContext = createContext({} as ChallengesContextData)
@@ -39,6 +43,7 @@ export default function ChallengesProvider({
   level,
   currentExperience,
   challengesCompleted,
+  rest,
 }: ChallengeProviderProps) {
   const [activeChallenge, setActiveChallenge] = useState<Challenge | null>(null)
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false)
@@ -72,6 +77,16 @@ export default function ChallengesProvider({
     setActiveChallenge(null)
   }
 
+  function startRestChallenge() {
+    const rest_challenge = {
+      type: "rest",
+      description: "Descanse por 5 minutos",
+      amount: 0,
+    } as Challenge
+
+    setActiveChallenge(rest_challenge)
+  }
+
   async function completeChallenge() {
     if (!activeChallenge) return
 
@@ -92,9 +107,27 @@ export default function ChallengesProvider({
     await updateExperienceAndChallengesCompleted({
       currentExperience: finalExperience,
     })
-    setActiveChallenge(null)
 
     revalidatePomodoro()
+  }
+
+  function handleChallengeSucceeded() {
+    return new Promise<void>(async (resolve, reject) => {
+      await completeChallenge()
+
+      if (rest) {
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  }
+
+  function handleChallengeFailed() {
+    return new Promise<void>((resolve) => {
+      resetChallenge()
+      resolve()
+    })
   }
 
   return (
@@ -105,11 +138,14 @@ export default function ChallengesProvider({
         experienceToNextLevel,
         challengesCompleted,
         startNewChallenge,
+        startRestChallenge,
         activeChallenge,
         resetChallenge,
         completeChallenge,
         handleCloseLevelUpModal,
         isLevelUpModalOpen,
+        handleChallengeSucceeded,
+        handleChallengeFailed,
       }}
     >
       {children}

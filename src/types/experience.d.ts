@@ -3,10 +3,11 @@ type ExperienceStatus = {
   currentExperience: number
   challengesCompleted: number
   experienceToNextLevel?: number
+  rest: boolean
 }
 
 type Challenge = {
-  type: "body" | "eye"
+  type: "body" | "eye" | "rest"
   description: string
   amount: number
 }

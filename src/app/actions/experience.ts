@@ -14,12 +14,14 @@ const USER_DETAILS_COLLECTION = "user_details"
 const LEVEL_COOKIE_NAME = "level"
 const CURRENT_EXPERIENCE_COOKIE_NAME = "current_experience"
 const CHALLENGES_COMPLETED_COOKIE_NAME = "challenges_completed"
+const REST_COOKIE_NAME = "rest"
 
 export async function getStatus(): Promise<ExperienceStatus> {
   let level = 0
   let experienceToNextLevel = 0
   let currentExperience = 0
   let challengesCompleted = 0
+  let rest = true
 
   const levelCookieValue = Number(cookies().get(LEVEL_COOKIE_NAME)?.value)
 
@@ -43,6 +45,12 @@ export async function getStatus(): Promise<ExperienceStatus> {
     challengesCompleted = challengesCompleted
   }
 
+  const restCookieValue = cookies().get(REST_COOKIE_NAME)?.value
+
+  if (restCookieValue) {
+    rest = restCookieValue === "true"
+  }
+
   experienceToNextLevel = Math.pow((Number(level) + 1) * 4, 2)
 
   const status: ExperienceStatus = {
@@ -50,6 +58,7 @@ export async function getStatus(): Promise<ExperienceStatus> {
     currentExperience,
     challengesCompleted,
     experienceToNextLevel,
+    rest,
   }
 
   return status
