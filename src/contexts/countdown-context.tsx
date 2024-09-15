@@ -71,6 +71,9 @@ export default function CountdownProvider({
   }
 
   function resetCountdown() {
+    if (activeChallenge?.type === "rest") {
+      resetChallenge()
+    }
     setIsActive(false)
     setTime(pomodoro25Min) // Reseta para 25 minutos
     setHasFinished(false)

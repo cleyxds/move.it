@@ -110,6 +110,7 @@ export default function Countdown() {
       <Stack>
         {hasFinished ? (
           <CountdownButton
+            endIcon={<CheckIcon />}
             disabled
             sx={{
               position: "relative",
@@ -132,15 +133,13 @@ export default function Countdown() {
             <Stack position="absolute" bottom="0" left="0" right="0">
               <Box height="4px" bgcolor="green.main" />
             </Stack>
-            Ciclo encerrado{" "}
-            <Stack padding="5px">
-              <CheckIcon />
-            </Stack>
+            Ciclo encerrado
           </CountdownButton>
         ) : (
           <>
             {isActive ? (
               <CountdownButton
+                endIcon={<CloseIcon />}
                 onClick={resetCountdown}
                 sx={{
                   backgroundColor: "red.main",
@@ -157,13 +156,11 @@ export default function Countdown() {
                   },
                 }}
               >
-                Abandonar ciclo{" "}
-                <Stack padding="5px">
-                  <CloseIcon />
-                </Stack>
+                Abandonar ciclo
               </CountdownButton>
             ) : (
               <CountdownButton
+                endIcon={<PlayIcon />}
                 onClick={startCountdown}
                 sx={{
                   backgroundColor: "blue.main",
@@ -180,7 +177,7 @@ export default function Countdown() {
                   },
                 }}
               >
-                Iniciar um ciclo <PlayIcon />
+                Iniciar um ciclo
               </CountdownButton>
             )}
           </>
@@ -231,57 +228,3 @@ const CountdownButton = styled(Button)`
     cursor: not-allowed;
   }
 `
-
-// const {
-//   minutes,
-//   seconds,
-//   hasFinished,
-//   isActive,
-//   startCountdown,
-//   resetCountdown,
-// } = useContext(CountdownContext)
-
-// const [minuteLeft, minuteRight] = String(minutes).padStart(2, "0").split("")
-// const [secondLeft, secondRight] = String(seconds).padStart(2, "0").split("")
-
-// return (
-//   <div>
-//     <div className={styles.countdownContainer}>
-//       <div>
-//         <span>{minuteLeft}</span>
-//         <span>{minuteRight}</span>
-//       </div>
-//       <span>:</span>
-//       <div>
-//         <span>{secondLeft}</span>
-//         <span>{secondRight}</span>
-//       </div>
-//     </div>
-
-//     {hasFinished ? (
-//       <button disabled className={styles.countdownButton}>
-//         Ciclo encerrado
-//       </button>
-//     ) : (
-//       <>
-//         {isActive ? (
-//           <button
-//             type="button"
-//             className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
-//             onClick={resetCountdown}
-//           >
-//             Abandonar ciclo
-//           </button>
-//         ) : (
-//           <button
-//             type="button"
-//             className={styles.countdownButton}
-//             onClick={startCountdown}
-//           >
-//             Iniciar um ciclo
-//           </button>
-//         )}
-//       </>
-//     )}
-//   </div>
-// )
