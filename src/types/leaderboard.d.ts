@@ -10,5 +10,6 @@ type LeadershipUser = {
   name: string
   avatar_url?: string
   level: number
+  slug: string
   me?: boolean
 }

@@ -103,6 +103,23 @@ export const getLeaderboardData = cache(async (): Promise<LeaderboardRow[]> => {
   return data
 })
 
+export const getUserByLogin = async (login: string): Promise<User | null> => {
+  const collectionRef = collection(db, USER_DETAILS_COLLECTION)
+
+  const q = query(collectionRef, where("login", "==", login))
+
+  const querySnapshot = await getDocs(q)
+
+  const userDetailsRef = querySnapshot.docs[0]
+
+  if (!userDetailsRef) return null
+
+  return {
+    docID: userDetailsRef.id,
+    ...userDetailsRef.data(),
+  } as User
+}
+
 export async function toggleRest() {
   const session = await getServerSession()
   const email = session?.user?.email
@@ -136,6 +153,7 @@ export async function formatLeaderboardData(
     user: {
       level: user.level,
       name: user.name,
+      slug: user.login,
       avatar_url: user?.avatar_url,
       me: user.email === currentUserEmail,
     },

@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableCell from "@mui/material/TableCell"
@@ -88,7 +90,16 @@ export default async function LeaderboarTable() {
               </TableCell>
 
               <TableCell align="left">
-                <Stack direction="row" alignItems="center" gap="1rem">
+                <Stack
+                  component={Link}
+                  href={`/share/${row.user.slug}`}
+                  direction="row"
+                  alignItems="center"
+                  gap="1rem"
+                  sx={{
+                    textDecoration: "none",
+                  }}
+                >
                   <MUIImage
                     width={64}
                     height={64}
