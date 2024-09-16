@@ -16,23 +16,57 @@ export default async function LoginPage() {
 
   return (
     <Container sx={{ bgcolor: "blue.main" }}>
-      <Stack flex={1} direction="row" alignItems="center">
-        <Stack flex={1}>
+      <Stack
+        flex={1}
+        direction="row"
+        alignItems="center"
+        gap={{ md: "2rem", lg: "0rem" }}
+      >
+        <Stack
+          position="relative"
+          width={{
+            md: 768,
+            lg: 768,
+          }}
+          height={{
+            md: 660,
+            lg: 660,
+          }}
+          flex={{
+            lg: 1,
+            md: 1,
+            sm: 0,
+          }}
+        >
           <MUIImage
-            width={768}
-            height={660}
+            fill
+            priority
+            sizes="(max-width: 600px) 100vw, (max-width: 1199px) 768px, 768px"
             src={MoveitBackground}
             alt="Move.it background"
+            sx={{
+              objectFit: {
+                md: "scale-down",
+                lg: "unset",
+              },
+            }}
           />
         </Stack>
 
         <Stack flex={1} alignItems="center" gap="2rem">
           <Stack alignItems="center" gap="1rem">
-            <Logo />
+            <Logo
+              sx={{
+                width: {
+                  xs: 250,
+                  sm: 360,
+                },
+              }}
+            />
 
             <Typography
-              fontSize="2.25rem"
-              lineHeight="2.875rem"
+              fontSize={{ xs: "2rem", sm: "2.25rem" }}
+              lineHeight={{ xs: "2.5rem", sm: "2.875rem" }}
               fontWeight="600"
               color="common.white"
             >
