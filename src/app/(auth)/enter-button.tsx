@@ -20,7 +20,21 @@ export default function EnterButton({
 }) {
   if (authenticated) {
     return (
-      <Button LinkComponent={Link} href="pomodoro">
+      <Button
+        LinkComponent={Link}
+        href="pomodoro"
+        sx={{
+          [theme.breakpoints.up("lg")]: {
+            width: "50%",
+          },
+          [theme.breakpoints.down("lg")]: {
+            width: "75%",
+          },
+          [theme.breakpoints.down("sm")]: {
+            width: "100%",
+          },
+        }}
+      >
         Entrar
       </Button>
     )
