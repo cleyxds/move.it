@@ -5,11 +5,13 @@ import Link from "next/link"
 import { signIn } from "next-auth/react"
 
 import { styled } from "@mui/material"
+import Stack from "@mui/material/Stack"
 import MUIButton from "@mui/material/Button"
 
 import theme from "@/theme"
 
-import GithubIcon from "@/assets/icons/github"
+import GithubIcon from "@mui/icons-material/GitHub"
+import GoogleIcon from "@mui/icons-material/Google"
 
 export default function EnterButton({
   authenticated,
@@ -25,26 +27,32 @@ export default function EnterButton({
   }
 
   return (
-    <Button
-      onClick={() => signIn("github")}
-      endIcon={<GithubIcon width={24} height={24} viewBox="0 0 40 40" />}
+    <Stack
+      sx={{
+        [theme.breakpoints.up("lg")]: {
+          width: "50%",
+        },
+        [theme.breakpoints.down("lg")]: {
+          width: "75%",
+        },
+        [theme.breakpoints.down("sm")]: {
+          width: "100%",
+        },
+      }}
+      gap="1rem"
     >
-      Entrar usando Github
-    </Button>
+      <Button onClick={() => signIn("github")} endIcon={<GithubIcon />}>
+        Entrar usando Github
+      </Button>
+
+      <Button onClick={() => signIn("google")} endIcon={<GoogleIcon />}>
+        Entrar usando Google
+      </Button>
+    </Stack>
   )
 }
 
 const Button = styled(MUIButton)({
-  [theme.breakpoints.up("lg")]: {
-    width: "50%",
-  },
-  [theme.breakpoints.down("lg")]: {
-    width: "75%",
-  },
-  [theme.breakpoints.down("sm")]: {
-    width: "100%",
-  },
-
   height: "5rem",
   borderRadius: ".3125rem",
   fontSize: "1.125rem",

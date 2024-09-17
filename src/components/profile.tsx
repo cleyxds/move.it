@@ -1,23 +1,22 @@
-import { getServerSession } from "next-auth"
-
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
 import MUIImage from "@/components/mui-image"
 import Logout from "@/components/logout"
 
-export default async function Profile({ level }: { level: number }) {
-  const session = await getServerSession()
+export default function Profile({ user }: { user: User | null }) {
+  const name = user?.name as string
+  const image = user?.avatar_url as string
+  const level = user?.level as number
 
-  const name = session?.user?.name
-  const image = session?.user?.image as string
+  if (!name || !image) return null
 
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
       <Stack direction="row" alignItems="center">
         <MUIImage
           src={image}
-          alt="Cleyson Barbosa"
+          alt="Profile image"
           width={88}
           height={88}
           sx={{

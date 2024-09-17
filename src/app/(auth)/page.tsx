@@ -75,10 +75,8 @@ export default async function LoginPage() {
           </Stack>
 
           <Stack direction="row" alignItems="center" gap="1rem">
-            <GithubIcon />
-
             <Typography color="textHighlight.main">
-              Faça login com seu Github para começar
+              Faça login para começar
             </Typography>
           </Stack>
 
