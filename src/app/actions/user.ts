@@ -3,7 +3,6 @@
 import { cache } from "react"
 
 import { getServerSession } from "next-auth"
-import { GithubProfile } from "next-auth/providers/github"
 
 import {
   collection,
@@ -22,6 +21,13 @@ import { db } from "@/services/firebase"
 import { revalidatePomodoro } from "@/app/actions/experience"
 import calculateTotalXP from "@/utils/calculate-total-xp"
 
+import {
+  SocialProfile,
+  UserDetailsGithubProfile,
+  UserDetailsGoogleProfile,
+  UserDetailsProfileData,
+} from "@/types/auth"
+
 const USER_DETAILS_COLLECTION = "user_details"
 
 const INITIAL_EXPERIENCE_STATUS: ExperienceStatus = {
@@ -31,7 +37,10 @@ const INITIAL_EXPERIENCE_STATUS: ExperienceStatus = {
   rest: true,
 }
 
-export async function createUserDetails(profile: GithubProfile) {
+export async function createUserDetails(
+  provider: string,
+  profile: SocialProfile
+) {
   const email = profile.email as string
   const emailId = email.toLowerCase()
 
@@ -42,17 +51,31 @@ export async function createUserDetails(profile: GithubProfile) {
   // Guard of the user already exists
   if (docSnapshot.exists()) return userDocRef.id
 
-  const GITHUB_DATA = {
-    login: profile.login,
-    company: profile.company,
-    avatar_url: profile.avatar_url,
-    name: profile.name,
+  let PROFILE_DATA: UserDetailsProfileData
+
+  const GOOGLE_PROFILE_DATA: UserDetailsGoogleProfile = {
+    provider,
+    login: profile.email!,
+    avatar_url: profile.picture!,
+    name: profile.name!,
     email,
   }
 
+  const GITHUB_PROFILE_DATA: UserDetailsGithubProfile = {
+    provider,
+    login: profile.login,
+    company: profile.company,
+    avatar_url: profile.avatar_url,
+    name: profile.name!,
+    email,
+  }
+
+  // prettier-ignore
+  PROFILE_DATA = provider === "github" ? GITHUB_PROFILE_DATA : GOOGLE_PROFILE_DATA
+
   const data = {
     ...INITIAL_EXPERIENCE_STATUS,
-    ...GITHUB_DATA,
+    ...PROFILE_DATA,
   }
 
   await setDoc(userDocRef, data, { merge: true })

@@ -40,7 +40,7 @@ export default async function IndexPage() {
 
           <Stack component="section" direction="row" gap="8rem" pt="2rem">
             <Stack flex={1}>
-              <Profile level={status.level} />
+              <Profile user={user} />
 
               <CompletedChallenges
                 challengesCompleted={status.challengesCompleted}

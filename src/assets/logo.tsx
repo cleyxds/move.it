@@ -1,4 +1,8 @@
+"use client"
+
 import { SVGProps } from "react"
+
+import { styled } from "@mui/material"
 
 const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -6,6 +10,7 @@ const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
     width={360}
     height={76}
     fill="none"
+    viewBox="0 0 360 76"
     {...props}
   >
     <g clipPath="url(#a)">
@@ -30,4 +35,4 @@ const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
-export default SvgComponent
+export default styled(SvgComponent)({})

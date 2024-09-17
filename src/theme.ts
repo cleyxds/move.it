@@ -55,6 +55,9 @@ const theme = createTheme({
     title: {
       main: "#2E384D",
     },
+    texts: {
+      main: "#666666",
+    },
     red: {
       main: "#E83F5B",
     },
@@ -90,6 +93,24 @@ const theme = createTheme({
         },
       },
     },
+    MuiCssBaseline: {
+      styleOverrides: (theme) => ({
+        html: {
+          [theme.breakpoints.down("sm")]: {
+            fontSize: "14px",
+          },
+          [theme.breakpoints.between("sm", "md")]: {
+            fontSize: "15px",
+          },
+          [theme.breakpoints.between("md", "lg")]: {
+            fontSize: "16px",
+          },
+          [theme.breakpoints.up("lg")]: {
+            fontSize: "16px",
+          },
+        },
+      }),
+    },
   },
 })
 
@@ -97,6 +118,18 @@ declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     gradient: true
     rect: true
+  }
+
+  interface PaletteOptions {
+    grayLine: PaletteColorOptions
+    textHighlight: PaletteColorOptions
+    title: PaletteColorOptions
+    red: PaletteColorOptions
+    green: PaletteColorOptions
+    blue: PaletteColorOptions
+    blueDark: PaletteColorOptions
+    blueTwitter: PaletteColorOptions
+    texts: PaletteColorOptions
   }
 }
 
@@ -110,6 +143,7 @@ declare module "@mui/material/styles" {
     blue: PaletteColor
     blueDark: PaletteColor
     blueTwitter: PaletteColor
+    texts: PaletteColor
   }
 
   interface PaletteOptions {
@@ -121,6 +155,7 @@ declare module "@mui/material/styles" {
     blue: PaletteColorOptions
     blueDark: PaletteColorOptions
     blueTwitter: PaletteColorOptions
+    texts: PaletteColorOptions
   }
 }
 
