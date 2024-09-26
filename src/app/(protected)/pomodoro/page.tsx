@@ -33,12 +33,32 @@ export default async function IndexPage() {
         <Stack
           position="relative"
           justifyContent="center"
-          paddingRight="10rem"
+          padding={{
+            xs: "1rem",
+            sm: "0",
+            md: "0",
+            lg: "0",
+          }}
+          paddingRight={{
+            sm: "2rem",
+            md: "6rem",
+            lg: "10rem",
+          }}
           flex={1}
         >
           <ExperienceBar {...status} />
 
-          <Stack component="section" direction="row" gap="8rem" pt="2rem">
+          <Stack
+            component="section"
+            direction={{ xs: "column", lg: "row" }}
+            gap={{
+              xs: "8rem",
+              sm: "0",
+              md: "0",
+              lg: "8rem",
+            }}
+            pt={{ xs: "6rem", lg: "2rem" }}
+          >
             <Stack flex={1}>
               <Profile user={user} />
 

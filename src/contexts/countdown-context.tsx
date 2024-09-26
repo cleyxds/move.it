@@ -11,6 +11,7 @@ import {
 } from "react"
 
 import { ChallengeContext } from "@/contexts/challenges-context"
+import wrapFunctionality from "@/utils/wrap-functionality"
 
 interface CountdownContextData {
   minutes: number
@@ -31,8 +32,8 @@ type CountdownProviderProps = {
 
 export const CountdownContext = createContext({} as CountdownContextData)
 
-const pomodoro25Min = 25 * 60 // 25 minutos em segundos
-const rest5Min = 5 * 60 // 5 minutos em segundos
+const pomodoro25Min = 2 // 25 minutos em segundos
+const rest5Min = 1 // 5 minutos em segundos
 
 export default function CountdownProvider({
   children,
@@ -100,10 +101,15 @@ export default function CountdownProvider({
           if (activeChallenge?.type === "rest") {
             // Se o desafio for de descanso, reseta o countdown e o desafio de descanso
 
-            new Audio("/notification.mp3").play()
-            if (Notification.permission === "granted") {
-              new Notification("Tempo de descanso acabou 🥲")
-            }
+            wrapFunctionality("Audio", () => {
+              new Audio("/notification.mp3").play()
+            })
+
+            wrapFunctionality("Notification", () => {
+              if (Notification.permission === "granted") {
+                new Notification("Tempo de descanso acabou 🥲")
+              }
+            })
 
             resetCountdown()
             resetChallenge()

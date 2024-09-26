@@ -9,8 +9,17 @@ import { isAuthenticated } from "@/app/actions/auth"
 const container_sx = {
   p: "0 !important",
   display: "flex",
-  flexDirection: "row",
-  gap: "10rem",
+  flexDirection: {
+    xs: "column",
+    sm: "row",
+    md: "row",
+    lg: "row",
+  },
+  gap: {
+    sm: "2rem",
+    md: "6rem",
+    lg: "10rem",
+  },
 }
 
 export default async function ProtectedLayout({

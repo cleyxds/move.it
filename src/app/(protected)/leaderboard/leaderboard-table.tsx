@@ -91,13 +91,19 @@ export default async function LeaderboarTable() {
 
               <TableCell align="left">
                 <Stack
-                  component={Link}
-                  href={`/share/${row.user.slug}`}
+                  // TODO: Fix responsive design for share page
+                  // component={Link}
+                  // href={`/share/${row.user.slug}`}
                   direction="row"
                   alignItems="center"
                   gap="1rem"
                   sx={{
                     textDecoration: "none",
+                    textAlign: {
+                      xs: "center",
+                      sm: "left",
+                      lg: "left",
+                    },
                   }}
                 >
                   <MUIImage
@@ -142,7 +148,15 @@ export default async function LeaderboarTable() {
                 </Stack>
               </TableCell>
 
-              <TableCell align="left">
+              <TableCell
+                align="left"
+                sx={{
+                  textAlign: {
+                    xs: "center",
+                    lg: "left",
+                  },
+                }}
+              >
                 <Typography
                   component="span"
                   fontFamily="var(--font-inter)"

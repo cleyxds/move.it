@@ -11,15 +11,30 @@ export default function ExperienceBar({
 
   return (
     <Stack
-      position="absolute"
+      position={{
+        xs: "sticky",
+        sm: "sticky",
+        md: "absolute",
+        lg: "absolute",
+      }}
       component="header"
       gap="1rem"
       direction="row"
       alignItems="center"
       sx={{
         top: "1.5rem",
-        left: "0",
-        right: "10rem",
+        left: {
+          xs: "1rem",
+          sm: "0",
+          md: "0",
+          lg: "0",
+        },
+        right: {
+          xs: "1rem",
+          sm: "2rem",
+          md: "6rem",
+          lg: "10rem",
+        },
       }}
     >
       <Typography
@@ -55,6 +70,7 @@ export default function ExperienceBar({
           fontSize=".875rem"
           fontFamily="var(--font-inter)"
           textAlign="center"
+          width="max-content"
           top="12px"
           sx={{
             transform: "translateX(-50%)",

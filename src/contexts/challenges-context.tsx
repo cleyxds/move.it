@@ -10,6 +10,8 @@ import {
   updateExperienceAndChallengesCompleted,
 } from "@/app/actions/experience"
 
+import wrapFunctionality from "@/utils/wrap-functionality"
+
 import challenges from "../../challenges.json"
 
 type ChallengesContextData = {
@@ -51,7 +53,9 @@ export default function ChallengesProvider({
   const experienceToNextLevel = Math.pow((level + 1) * 4, 2)
 
   useEffect(() => {
-    Notification.requestPermission()
+    wrapFunctionality("Notification", () => {
+      Notification.requestPermission()
+    })
   }, [])
 
   function handleCloseLevelUpModal() {
@@ -64,13 +68,17 @@ export default function ChallengesProvider({
 
     setActiveChallenge(challenge)
 
-    new Audio("/notification.mp3").play()
+    wrapFunctionality("Audio", () => {
+      new Audio("/notification.mp3").play()
+    })
 
-    if (Notification.permission === "granted") {
-      new Notification("Novo desafio 🎉", {
-        body: `Valendo ${challenge.amount} xp!`,
-      })
-    }
+    wrapFunctionality("Notification", () => {
+      if (Notification.permission === "granted") {
+        new Notification("Novo desafio 🎉", {
+          body: `Valendo ${challenge.amount} xp!`,
+        })
+      }
+    })
   }
 
   function resetChallenge() {
@@ -94,19 +102,23 @@ export default function ChallengesProvider({
 
     let finalExperience = currentExperience + amount
 
-    if (finalExperience >= experienceToNextLevel) {
-      finalExperience = finalExperience - experienceToNextLevel
+    // if (finalExperience >= experienceToNextLevel) {
+    //   finalExperience = finalExperience - experienceToNextLevel
 
-      await levelUp()
-      const TADA = new Audio("/tada.mp3")
-      TADA.volume = 0.25
-      await TADA.play()
-      setIsLevelUpModalOpen(true)
-    }
+    //   await levelUp()
 
-    await updateExperienceAndChallengesCompleted({
-      currentExperience: finalExperience,
-    })
+    //   wrapFunctionality("Audio", async () => {
+    //     const TADA = new Audio("/tada.mp3")
+    //     TADA.volume = 0.25
+    //     await TADA.play()
+    //   })
+
+    //   setIsLevelUpModalOpen(true)
+    // }
+
+    // await updateExperienceAndChallengesCompleted({
+    //   currentExperience: finalExperience,
+    // })
 
     revalidatePomodoro()
   }
