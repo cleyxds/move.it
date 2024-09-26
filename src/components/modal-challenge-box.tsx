@@ -1,76 +1,64 @@
 "use client"
 
-import { useContext } from "react"
-
-import { ChallengeContext } from "@/contexts/challenges-context"
-import { CountdownContext } from "@/contexts/countdown-context"
-
-import MUIImage from "@/components/mui-image"
-import ModalChallengeBox from "@/components/modal-challenge-box"
-
-import { styled } from "@mui/material"
 import Box from "@mui/material/Box"
+import Modal from "@mui/material/Modal"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
 
-export default function ChallengeBox() {
-  const { resetCountdown, startRestCountdown, startCountdown, isActive } =
-    useContext(CountdownContext)
+import MUIImage from "@/components/mui-image"
+import { CTAButton } from "@/components/challenge-box"
 
-  const {
-    activeChallenge,
-    resetChallenge,
-    handleChallengeSucceeded,
-    handleChallengeFailed,
-  } = useContext(ChallengeContext)
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: {
+    xs: "80%",
+    sm: "80%",
+    md: "80%",
+    lg: "50%",
+  },
+  width: "100px",
+  bgcolor: "background.paper",
+  borderRadius: ".3125rem",
+  overflow: "hidden",
+  boxShadow: 24,
+}
 
-  async function challengeSucceeded() {
-    await handleChallengeSucceeded()
-      .then(() => {
-        startRestCountdown()
-      })
-      .catch(() => {
-        resetChallenge()
-        resetCountdown()
-      })
-  }
-
-  function challengeFailed() {
-    handleChallengeFailed().then(() => {
-      resetCountdown()
-    })
-  }
-
-  const isRestChallenge = activeChallenge?.type === "rest"
-
+type ModalChallengeBoxProps = {
+  open: boolean
+  activeChallenge: Challenge | null
+  isRestChallenge: boolean
+  onSucceeded: () => void
+  isActiveCycle: boolean
+  onFailed: () => void
+  startRestCountdown: () => void
+}
+export default function ModalChallengeBox({
+  open,
+  activeChallenge,
+  isRestChallenge,
+  onSucceeded: challengeSucceeded,
+  onFailed: challengeFailed,
+  startRestCountdown,
+  isActiveCycle,
+}: ModalChallengeBoxProps) {
   return (
-    <>
-      <ModalChallengeBox
-        open={!!activeChallenge}
-        isActiveCycle={isActive}
-        activeChallenge={activeChallenge}
-        isRestChallenge={isRestChallenge}
-        startRestCountdown={startCountdown}
-        onSucceeded={challengeSucceeded}
-        onFailed={challengeFailed}
-      />
-
-      <Stack
-        height="100%"
-        bgcolor="var(--white)"
-        borderRadius="5px"
-        boxShadow="0 0 60px rgba(0, 0, 0, 0.05)"
-        alignItems="center"
-        justifyContent="center"
-        textAlign="center"
-        display={{
-          xs: "none",
-          sm: "none",
-          md: "none",
-          lg: "flex",
-        }}
-      >
+    <Modal
+      open={open}
+      aria-labelledby="modal-challenge-box-title"
+      aria-describedby="modal-challenge-box-description"
+      sx={{
+        display: {
+          xs: "flex",
+          sm: "flex",
+          md: "flex",
+          lg: "none",
+        },
+      }}
+    >
+      <Box sx={style}>
         {activeChallenge ? (
           <>
             {isRestChallenge ? (
@@ -96,6 +84,42 @@ export default function ChallengeBox() {
                 >
                   Tempo de descanso
                 </Typography>
+
+                {isActiveCycle ? (
+                  <CTAButton
+                    type="button"
+                    onClick={startRestCountdown}
+                    sx={{
+                      width: "100%",
+                      backgroundColor: "red.main",
+                      color: "common.white",
+
+                      "&:not(:disabled):hover": {
+                        backgroundColor: "red.main",
+                      },
+
+                      "&:disabled": {
+                        backgroundColor: "common.white",
+                        color: "text.primary",
+                        cursor: "not-allowed",
+                      },
+                    }}
+                  >
+                    Abandonar ciclo
+                  </CTAButton>
+                ) : (
+                  <CTAButton
+                    type="button"
+                    onClick={startRestCountdown}
+                    sx={{
+                      backgroundColor: "blue.main",
+                      color: "common.white",
+                      width: "100%",
+                    }}
+                  >
+                    Iniciar ciclo de descanso
+                  </CTAButton>
+                )}
               </Stack>
             ) : (
               <Stack height="100%">
@@ -108,6 +132,7 @@ export default function ChallengeBox() {
                     padding="0 0 1.5rem"
                     borderBottom="1px solid var(--gray-line)"
                     width="100%"
+                    textAlign="center"
                   >
                     Ganhe {activeChallenge.amount} xp
                   </Box>
@@ -126,11 +151,12 @@ export default function ChallengeBox() {
                       color="var(--title)"
                       paddingTop="1.5rem"
                       paddingBottom="0.5rem"
+                      textAlign="center"
                     >
                       Novo desafio
                     </Typography>
 
-                    <Typography width="70%" lineHeight="1.5">
+                    <Typography lineHeight="1.5">
                       {activeChallenge.description}
                     </Typography>
                   </Stack>
@@ -199,16 +225,7 @@ export default function ChallengeBox() {
             </Typography>
           </Stack>
         )}
-      </Stack>
-    </>
+      </Box>
+    </Modal>
   )
 }
-
-export const CTAButton = styled(Button)`
-  height: 5rem;
-  border: 0;
-  border-radius: 0;
-  font-size: 1.25rem;
-  font-weight: 500;
-  outline: 1px solid #dcdde0;
-`

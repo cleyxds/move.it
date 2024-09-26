@@ -8,7 +8,22 @@ import LeaderboardTable from "./leaderboard-table"
 
 export default function LeaderboardPage() {
   return (
-    <Stack paddingTop="1.5rem" paddingRight="10rem" flex={1} gap="1.5rem">
+    <Stack
+      paddingTop="1.5rem"
+      paddingRight={{
+        sm: "2rem",
+        md: "6rem",
+        lg: "10rem",
+      }}
+      padding={{
+        xs: "1rem",
+        sm: "auto",
+        md: "auto",
+        lg: "auto",
+      }}
+      flex={1}
+      gap="1.5rem"
+    >
       <Typography
         fontSize="2.25rem"
         lineHeight="2.875rem"

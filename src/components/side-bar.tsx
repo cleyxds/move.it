@@ -13,7 +13,7 @@ import theme from "@/theme"
 
 import SideBarLogo from "@/assets/side-bar-logo"
 import HomeIcon from "@/assets/icons/home"
-import RankingIcon from "@/assets/icons/ranking"
+import LeaderboardIcon from "@/assets/icons/leaderboard"
 
 export default function SideBar() {
   const pathname = usePathname()
@@ -26,14 +26,41 @@ export default function SideBar() {
   return (
     <Stack
       component="aside"
-      maxWidth="7rem"
-      minHeight="100dvh"
+      minWidth={{
+        xs: "100%",
+        sm: "7rem",
+      }}
+      maxWidth={{
+        xs: "100%",
+        sm: "7rem",
+      }}
+      minHeight={{
+        xs: "6rem",
+      }}
       bgcolor="common.white"
-      padding={4}
-      position="relative"
+      padding="2rem"
+      zIndex={1}
+      position={{
+        xs: "fixed",
+        sm: "relative",
+      }}
+      bottom={{
+        xs: "0",
+        sm: "unset",
+      }}
     >
-      <Stack component={Link} href="/" zIndex={1}>
-        <SideBarLogo pointerEvents="none" />
+      <Stack
+        component={Link}
+        href="/"
+        zIndex={1}
+        sx={{
+          pointerEvents: {
+            xs: "none",
+            sm: "auto",
+          },
+        }}
+      >
+        <SideBarLogo />
       </Stack>
 
       <Stack
@@ -41,16 +68,52 @@ export default function SideBar() {
         justifyContent="center"
         alignItems="center"
         gap="1rem"
+        flexDirection={{
+          xs: "row",
+          sm: "column",
+        }}
         sx={{ inset: "0" }}
       >
-        <PathIndicator top={top} />
+        <PathIndicator
+          top={top}
+          display={{
+            xs: "none",
+            sm: "block",
+          }}
+        />
 
-        <IconButton LinkComponent={Link} href="pomodoro">
+        <IconButton
+          LinkComponent={Link}
+          href="pomodoro"
+          sx={{
+            svg: {
+              path: {
+                stroke:
+                  pathname === "/pomodoro"
+                    ? theme.palette.blue.main
+                    : theme.palette.texts.main,
+              },
+            },
+          }}
+        >
           <HomeIcon />
         </IconButton>
 
-        <IconButton LinkComponent={Link} href="leaderboard">
-          <RankingIcon />
+        <IconButton
+          LinkComponent={Link}
+          href="leaderboard"
+          sx={{
+            svg: {
+              path: {
+                stroke:
+                  pathname === "/leaderboard"
+                    ? theme.palette.blue.main
+                    : theme.palette.texts.main,
+              },
+            },
+          }}
+        >
+          <LeaderboardIcon />
         </IconButton>
       </Stack>
     </Stack>

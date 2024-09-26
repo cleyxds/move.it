@@ -13,7 +13,6 @@ const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2.5}
-      opacity={0.5}
     >
       <path d="M16 20a9.333 9.333 0 1 0 0-18.667A9.333 9.333 0 0 0 16 20Z" />
       <path d="M10.947 18.52 9.334 30.667l6.666-4 6.667 4-1.614-12.16" />
