@@ -32,8 +32,8 @@ type CountdownProviderProps = {
 
 export const CountdownContext = createContext({} as CountdownContextData)
 
-const pomodoro25Min = 2 // 25 minutos em segundos
-const rest5Min = 1 // 5 minutos em segundos
+const pomodoro25Min = 25 * 60 // 25 minutos em segundos
+const rest5Min = 5 * 60 // 5 minutos em segundos
 
 export default function CountdownProvider({
   children,
