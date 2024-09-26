@@ -102,23 +102,23 @@ export default function ChallengesProvider({
 
     let finalExperience = currentExperience + amount
 
-    // if (finalExperience >= experienceToNextLevel) {
-    //   finalExperience = finalExperience - experienceToNextLevel
+    if (finalExperience >= experienceToNextLevel) {
+      finalExperience = finalExperience - experienceToNextLevel
 
-    //   await levelUp()
+      await levelUp()
 
-    //   wrapFunctionality("Audio", async () => {
-    //     const TADA = new Audio("/tada.mp3")
-    //     TADA.volume = 0.25
-    //     await TADA.play()
-    //   })
+      wrapFunctionality("Audio", async () => {
+        const TADA = new Audio("/tada.mp3")
+        TADA.volume = 0.25
+        await TADA.play()
+      })
 
-    //   setIsLevelUpModalOpen(true)
-    // }
+      setIsLevelUpModalOpen(true)
+    }
 
-    // await updateExperienceAndChallengesCompleted({
-    //   currentExperience: finalExperience,
-    // })
+    await updateExperienceAndChallengesCompleted({
+      currentExperience: finalExperience,
+    })
 
     revalidatePomodoro()
   }
