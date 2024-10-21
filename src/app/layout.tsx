@@ -11,7 +11,7 @@ import theme, { fontVariants } from "../theme"
 export const metadata: Metadata = {
   title: "move.it",
   description:
-    "O move.it é um sistema de pomodoro voltado para desenvolvedores que desejam melhorar sua saúde enquanto codam. Oferece exercícios físicos, de visão e pausas produtivas durante suas sessões de trabalho, ajudando a manter o foco e o bem-estar.",
+    "O move.it é um app que une a técnica de Pomodoro com a realização de exercícios físicos para quem passa muito tempo na frente do computador.",
 }
 
 export default function RootLayout({
