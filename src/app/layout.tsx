@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 
-import CssBaseline from "@mui/material/CssBaseline"
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter"
 import { ThemeProvider } from "@mui/material/styles"
+import CssBaseline from "@mui/material/CssBaseline"
 
 import ReactQueryProvider from "./react-query-provider"
 
@@ -11,7 +11,7 @@ import theme, { fontVariants } from "../theme"
 export const metadata: Metadata = {
   title: "move.it",
   description:
-    "Move.it é um aplicativo de comércio eletrônico de venda de joias online",
+    "O move.it é um sistema de pomodoro voltado para desenvolvedores que desejam melhorar sua saúde enquanto codam. Oferece exercícios físicos, de visão e pausas produtivas durante suas sessões de trabalho, ajudando a manter o foco e o bem-estar.",
 }
 
 export default function RootLayout({
